@@ -23,6 +23,11 @@ def make_engine(D, theta0= 0.99, theta=0.02 * np.ones((20, 1)),
     """
     
     S, N = D.shape
+
+    assert S == len(theta), 'Mismatch in number of symptoms'
+    assert N == len(pd), 'Mismatch in number of diseases'
+    assert len(np.unique(D)) == 2, 'symptom/disease influence matrix should be binary'
+
     
     # Probability matrix not observing a symptom when disease i is present
     pSD = (D * theta) + (1 - D)
