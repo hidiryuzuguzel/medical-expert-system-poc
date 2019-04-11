@@ -23,12 +23,16 @@ class TestInferenceEngine(unittest.TestCase):
 
     def test_if_output_of_make_engine_is_dict(self):
         D = np.random.rand(20, 10) < 0.3  # Diseases/Symptom matrix
-        eng = make_engine(D,
-                          theta0=0.99,
-                          theta=0.02 * np.ones((20, 1)),
-                          pd=0.01 * np.ones((10, 1)))
+        theta0 = 0.99
+        theta = 0.02 * np.ones((20, 1))
+        pd = 0.01 * np.ones((10, 1))
+        eng = make_engine(D, theta0=theta0, theta=theta, pd=pd)
         self.assertIsInstance(eng, dict)
         self.assertListEqual(list(eng.keys()), ['S', 'N', 'pd', 'D', 'pSD', 'th0', 'th', 'dn', 'sn'])
+        self.assertListEqual(eng['D'].tolist(), D.tolist())
+        self.assertEqual(eng['th0'], theta0)
+        self.assertListEqual(eng['th'].tolist(), theta.tolist())
+        self.assertListEqual(eng['pd'].tolist(), pd.tolist())
         self.assertEqual(len(eng['dn']), 10)
         self.assertListEqual(eng['dn'], ['Disease%d'%(i+1) for i in range(10)])
         self.assertEqual(len(eng['sn']), 20)
