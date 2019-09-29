@@ -74,7 +74,7 @@ def generate_data(eng, dlist=[]):
     return d, s
         
 
-def infer_best_k(eng, sidx, so, best_k):
+def infer_best_k(eng, sidx, so, best_k, MX = 3):
     """
     Infer the best K disease array configurations  
     Args:
@@ -82,14 +82,13 @@ def infer_best_k(eng, sidx, so, best_k):
             sidx: observed symptom indices
             so:   Observed symptom values (0/1)
             best_k: Retrieve only the best_k configurations
+            MX: Number of maximum diseases to concurrently search for
             
     Returns:
             conf:  Best k configurations
             logP:  Corresponding unnormalized posterior value
     
     """
-
-    MX = 3 # Number of maximum diseases to concurrently search for.
 
     N = eng["N"]
     
